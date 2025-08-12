@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideator Konten - Paket Konten Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .input-field {
+            background-color: #f3f4f6;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
+        .result-section {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .result-content {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            color: #374151;
+        }
+        .file-input-label {
+            cursor: pointer;
+            border: 2px dashed #d1d5db;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .file-input-label:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-3xl mx-auto">
+        <div class="card p-6 md:p-8">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Ideator Konten</h1>
+                <p class="text-gray-500 mt-2">Buat paket konten lengkap untuk semua kebutuhan Anda!</p>
+            </div>
+
+            <!-- Input Form -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="platform" class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+                    <select id="platform" class="w-full p-3 rounded-lg input-field">
+                        <option value="TikTok">TikTok</option>
+                        <option value="Instagram">Instagram (Reels/Post)</option>
+                        <option value="YouTube">YouTube (Shorts/Video Panjang)</option>
+                        <option value="Facebook">Facebook (Post/Video)</option>
+                        <option value="Shopee Video">Shopee Video</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="contentType" class="block text-sm font-medium text-gray-700 mb-1">Jenis Konten</label>
+                    <select id="contentType" onchange="toggleContentFields()" class="w-full p-3 rounded-lg input-field">
+                        <option value="Review Produk">Review Produk</option>
+                        <option value="Promosi Jasa">Promosi Konsep/Jasa</option>
+                        <option value="Personal Branding">Personal Branding</option>
+                        <option value="Pembahasan Topik">Pembahasan Topik</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Dynamic Input Containers -->
+            <div id="dynamic-inputs">
+                <!-- Review Produk -->
+                <div id="product-container" class="space-y-4">
+                    <div class="border-t border-gray-200 pt-4">
+                        <label for="productLink" class="block text-sm font-medium text-gray-700 mb-1">Link Produk</label>
+                        <input type="text" id="productLink" placeholder="https://shopee.co.id/namaproduk-..." class="w-full p-3 rounded-lg input-field">
+                    </div>
+                    <div>
+                        <label for="productAngle" class="block text-sm font-medium text-gray-700 mb-1">Gaya Naskah (Angle)</label>
+                        <select id="productAngle" class="w-full p-3 rounded-lg input-field">
+                            <option value="Softselling (Fokus Nilai)">Softselling (Fokus Nilai)</option>
+                            <option value="Hard Selling (Jualan Langsung)">Hard Selling (Jualan Langsung)</option>
+                            <option value="Persuasif">Persuasif</option>
+                            <option value="Masalah & Solusi">Masalah & Solusi</option>
+                            <option value="Unboxing">Unboxing</option>
+                            <option value="Storytelling">Storytelling</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Promosi Jasa -->
+                <div id="service-container" class="hidden space-y-4">
+                    <div class="border-t border-gray-200 pt-4">
+                        <label for="serviceName" class="block text-sm font-medium text-gray-700 mb-1">Nama Konsep / Jasa</label>
+                        <input type="text" id="serviceName" placeholder="Contoh: Jasa Desain Rumah Sehat" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                    <div>
+                        <label for="serviceDesc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat Jasa</label>
+                        <input type="text" id="serviceDesc" placeholder="Contoh: Membantu keluarga membangun rumah hemat energi" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                </div>
+
+                <!-- Personal Branding -->
+                <div id="branding-container" class="hidden space-y-4">
+                    <div class="border-t border-gray-200 pt-4">
+                        <label for="brandExpertise" class="block text-sm font-medium text-gray-700 mb-1">Bidang Keahlian Anda</label>
+                        <input type="text" id="brandExpertise" placeholder="Contoh: Pakar Keuangan, Motivator, Chef" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                    <div>
+                        <label for="brandMessage" class="block text-sm font-medium text-gray-700 mb-1">Pesan Utama yang Ingin Disampaikan</label>
+                        <input type="text" id="brandMessage" placeholder="Contoh: Siapapun bisa belajar investasi" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                </div>
+
+                <!-- Pembahasan Topik -->
+                <div id="topic-container" class="hidden space-y-4">
+                    <div class="border-t border-gray-200 pt-4">
+                        <label for="topicDiscuss" class="block text-sm font-medium text-gray-700 mb-1">Topik Trending / Ide</label>
+                        <input type="text" id="topicDiscuss" placeholder="Contoh: Dampak AI pada dunia kerja" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                     <div>
+                        <label for="topicAngle" class="block text-sm font-medium text-gray-700 mb-1">Sudut Pandang Anda</label>
+                        <select id="topicAngle" class="w-full p-3 rounded-lg input-field">
+                            <option value="Analisis Mendalam">Analisis Mendalam</option>
+                            <option value="Opini Pribadi (Pro/Kontra)">Opini Pribadi (Pro/Kontra)</option>
+                            <option value="Informatif & Edukatif">Informatif & Edukatif</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Inputs -->
+            <div class="border-t border-gray-200 pt-4 mt-4 space-y-4">
+                <h3 class="text-lg font-semibold text-gray-800">Detail & Optimasi</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="targetAudience" class="block text-sm font-medium text-gray-700 mb-1">Target Penonton</label>
+                        <input type="text" id="targetAudience" placeholder="Contoh: Ibu rumah tangga, Mahasiswa" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                    <div>
+                        <label for="toneOfVoice" class="block text-sm font-medium text-gray-700 mb-1">Nada Suara</label>
+                        <select id="toneOfVoice" class="w-full p-3 rounded-lg input-field">
+                            <option value="Ceria dan Antusias">Ceria & Antusias</option>
+                            <option value="Tenang dan Meyakinkan">Tenang & Meyakinkan</option>
+                            <option value="Profesional dan Informatif">Profesional & Informatif</option>
+                            <option value="Lucu dan Menghibur">Lucu & Menghibur</option>
+                            <option value="Inspiratif dan Memotivasi">Inspiratif & Memotivasi</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="videoDuration" class="block text-sm font-medium text-gray-700 mb-1">Durasi Video</label>
+                        <select id="videoDuration" class="w-full p-3 rounded-lg input-field">
+                            <option value="30 Detik">30 Detik</option>
+                            <option value="60 Detik">60 Detik (1 Menit)</option>
+                            <option value="90 Detik">90 Detik (1.5 Menit)</option>
+                            <option value="120 Detik">120 Detik (2 Menit)</option>
+                            <option value="150 Detik">150 Detik (2.5 Menit)</option>
+                            <option value="180 Detik">180 Detik (3 Menit)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="mainSeoKeyword" class="block text-sm font-medium text-gray-700 mb-1">Keyword SEO Utama (Opsional)</label>
+                        <input type="text" id="mainSeoKeyword" placeholder="Contoh: tips menabung" class="w-full p-3 rounded-lg input-field">
+                    </div>
+                </div>
+                <div>
+                    <label for="ctaInput" class="block text-sm font-medium text-gray-700 mb-1">Kalimat CTA (Pilih atau Ketik)</label>
+                    <input list="cta-options" id="ctaInput" placeholder="Contoh: Klik keranjang kuning!" class="w-full p-3 rounded-lg input-field">
+                    <datalist id="cta-options">
+                        <option value="Klik keranjang kuning sekarang!"></option>
+                        <option value="Cek link di bio untuk info lengkap!"></option>
+                        <option value="Komen 'MAU' nanti aku spill infonya."></option>
+                        <option value="Follow aku untuk konten seperti ini!"></option>
+                        <option value="Apa pendapatmu? Tulis di kolom komentar ya!"></option>
+                    </datalist>
+                </div>
+                <div>
+                    <label for="hashtagImage" class="block text-sm font-medium text-gray-700 mb-1">Upload SS Keyword Turunan (Opsional)</label>
+                    <label for="hashtagImage" class="file-input-label rounded-lg">
+                        <svg class="w-6 h-6 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                        <span id="file-name" class="text-gray-600">Pilih file gambar...</span>
+                    </label>
+                    <input type="file" id="hashtagImage" class="hidden" accept="image/*" onchange="updateFileName()">
+                </div>
+            </div>
+
+            <button id="generate-btn" onclick="generateContent()" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-blue-700 transition-colors flex items-center justify-center mt-6">
+                <svg id="generate-icon" class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                <span id="btn-text">Buat Paket Konten!</span>
+            </button>
+
+            <!-- Result Area -->
+            <div id="result-container" class="mt-8 hidden">
+                <!-- Hook Section -->
+                <div class="result-section">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800">1. Hook (Pancingan Awal)</h3>
+                        <button onclick="copyToClipboard('hook-output')" class="bg-gray-200 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg hover:bg-gray-300">Salin</button>
+                    </div>
+                    <p id="hook-output" class="result-content"></p>
+                </div>
+                <!-- Script Section -->
+                <div class="result-section">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800">2. Naskah untuk Voice Over</h3>
+                        <button onclick="copyToClipboard('script-output')" class="bg-gray-200 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg hover:bg-gray-300">Salin</button>
+                    </div>
+                    <p id="script-output" class="result-content"></p>
+                </div>
+                <!-- Video Prompt Section -->
+                <div class="result-section">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800">3. Saran Prompt untuk AI Video (per Adegan)</h3>
+                        <button onclick="copyToClipboard('video-prompt-output')" class="bg-gray-200 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg hover:bg-gray-300">Salin</button>
+                    </div>
+                    <p id="video-prompt-output" class="result-content"></p>
+                </div>
+                <!-- Hashtag Section -->
+                <div class="result-section">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800">4. Rekomendasi Hashtag</h3>
+                        <button onclick="copyToClipboard('hashtag-output')" class="bg-gray-200 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg hover:bg-gray-300">Salin</button>
+                    </div>
+                    <p id="hashtag-output" class="result-content"></p>
+                </div>
+            </div>
+             <textarea id="copy-helper" style="opacity: 0; position: absolute; z-index: -1;"></textarea>
+             <!-- Loading Spinner -->
+            <div id="loader" class="text-center mt-8 hidden">
+                <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-gray-500 mt-2">AI sedang meracik paket konten... mohon tunggu!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dom = {
+            platform: document.getElementById('platform'),
+            contentType: document.getElementById('contentType'),
+            productContainer: document.getElementById('product-container'),
+            serviceContainer: document.getElementById('service-container'),
+            brandingContainer: document.getElementById('branding-container'),
+            topicContainer: document.getElementById('topic-container'),
+            productLink: document.getElementById('productLink'),
+            productAngle: document.getElementById('productAngle'),
+            serviceName: document.getElementById('serviceName'),
+            serviceDesc: document.getElementById('serviceDesc'),
+            brandExpertise: document.getElementById('brandExpertise'),
+            brandMessage: document.getElementById('brandMessage'),
+            topicDiscuss: document.getElementById('topicDiscuss'),
+            topicAngle: document.getElementById('topicAngle'),
+            targetAudience: document.getElementById('targetAudience'),
+            toneOfVoice: document.getElementById('toneOfVoice'),
+            videoDuration: document.getElementById('videoDuration'),
+            ctaInput: document.getElementById('ctaInput'),
+            mainSeoKeyword: document.getElementById('mainSeoKeyword'),
+            hashtagImage: document.getElementById('hashtagImage'),
+            generateBtn: document.getElementById('generate-btn'),
+            btnText: document.getElementById('btn-text'),
+            loader: document.getElementById('loader'),
+            resultContainer: document.getElementById('result-container'),
+            hookOutput: document.getElementById('hook-output'),
+            scriptOutput: document.getElementById('script-output'),
+            videoPromptOutput: document.getElementById('video-prompt-output'),
+            hashtagOutput: document.getElementById('hashtag-output'),
+        };
+
+        function toggleContentFields() {
+            const selectedType = dom.contentType.value;
+            ['product-container', 'service-container', 'branding-container', 'topic-container'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+
+            if (selectedType === 'Review Produk') {
+                dom.productContainer.classList.remove('hidden');
+            } else if (selectedType === 'Promosi Jasa') {
+                dom.serviceContainer.classList.remove('hidden');
+            } else if (selectedType === 'Personal Branding') {
+                dom.brandingContainer.classList.remove('hidden');
+            } else if (selectedType === 'Pembahasan Topik') {
+                dom.topicContainer.classList.remove('hidden');
+            }
+        }
+        
+        function updateFileName() {
+            const fileNameSpan = document.getElementById('file-name');
+            if (dom.hashtagImage.files.length > 0) {
+                fileNameSpan.textContent = dom.hashtagImage.files[0].name;
+            } else {
+                fileNameSpan.textContent = 'Pilih file gambar...';
+            }
+        }
+
+        function fileToGenerativePart(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    resolve({ inlineData: { mimeType: file.type, data: reader.result.split(',')[1] } });
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function generateContent() {
+            setLoadingState(true);
+            let promptDetails = '';
+            let imagePart = null;
+
+            const imageFile = dom.hashtagImage.files[0];
+            if (imageFile) {
+                imagePart = await fileToGenerativePart(imageFile);
+            }
+
+            const basePrompt = `Anda adalah seorang AI Content Strategist yang sangat canggih. Tugas Anda adalah membuat paket konten lengkap berdasarkan input yang diberikan. Anda HARUS memberikan output dalam format JSON yang valid.
+
+Format JSON yang WAJIB Anda ikuti adalah:
+{
+  "hook": "Kalimat pancingan awal yang menarik, maksimal 15 kata, berdasarkan Keyword SEO Utama jika ada.",
+  "naskah_vo": "Naskah lengkap yang siap dibacakan untuk voice over, tanpa label atau judul bagian. Hanya teks narasi murni.",
+  "prompt_video": "Array of strings, berisi daftar prompt visual per adegan untuk AI video generator. Setiap string adalah satu adegan. Buat 3-5 adegan.",
+  "hashtags": "Satu string berisi maksimal 10 hashtag relevan yang dipisahkan spasi."
+}
+
+---
+`;
+            
+            const commonDetails = `
+- **Platform:** ${dom.platform.value}
+- **Durasi Target:** ${dom.videoDuration.value}
+- **Target Penonton:** ${dom.targetAudience.value}
+- **Nada Suara:** ${dom.toneOfVoice.value}
+- **Keyword SEO Utama:** "${dom.mainSeoKeyword.value}"
+- **CTA Wajib di akhir naskah:** "${dom.ctaInput.value}"
+- **Sumber Hashtag:** Ekstrak dari gambar yang saya berikan (jika ada). Jika tidak ada, buat berdasarkan keyword utama atau topik.`;
+            
+            const contentType = dom.contentType.value;
+            if (contentType === 'Review Produk') {
+                promptDetails = `**Detail Proyek:**
+- **Jenis Konten:** Review Produk
+- **Link Produk (untuk dianalisis):** ${dom.productLink.value}
+- **Gaya Naskah:** ${dom.productAngle.value}
+${commonDetails}
+
+**Tugas Tambahan untuk Naskah:** Kembangkan naskah berdasarkan 'Gaya Naskah' yang dipilih (Softselling, Hard Selling, Persuasif, dll).`;
+            } else if (contentType === 'Promosi Jasa') {
+                 promptDetails = `**Detail Proyek:**
+- **Jenis Konten:** Promosi Konsep/Jasa
+- **Nama Jasa:** ${dom.serviceName.value}
+- **Deskripsi Jasa:** ${dom.serviceDesc.value}
+${commonDetails}
+
+**Tugas Tambahan untuk Naskah:** Buat naskah yang secara efektif mempromosikan jasa ini, fokus pada manfaat dan solusi yang ditawarkan kepada target penonton.`;
+            } else if (contentType === 'Personal Branding') {
+                 promptDetails = `**Detail Proyek:**
+- **Jenis Konten:** Personal Branding
+- **Bidang Keahlian:** ${dom.brandExpertise.value}
+- **Pesan Utama:** ${dom.brandMessage.value}
+${commonDetails}
+
+**Tugas Tambahan untuk Naskah:** Buat naskah yang memperkuat citra diri sebagai ahli di bidangnya, sampaikan pesan utama dengan cara yang inspiratif atau edukatif.`;
+            } else if (contentType === 'Pembahasan Topik') {
+                 promptDetails = `**Detail Proyek:**
+- **Jenis Konten:** Pembahasan Topik
+- **Topik:** ${dom.topicDiscuss.value}
+- **Sudut Pandang:** ${dom.topicAngle.value}
+${commonDetails}
+
+**Tugas Tambahan untuk Naskah:** Buat naskah yang membahas topik dari sudut pandang yang dipilih, baik secara analitis, opini, maupun informatif.`;
+            }
+
+            const finalPrompt = basePrompt + promptDetails;
+
+            try {
+                const chatHistory = [{ role: "user", parts: [{ text: finalPrompt }] }];
+                if (imagePart) {
+                    chatHistory[0].parts.push(imagePart, { text: "\nIni adalah gambar screenshot berisi keyword turunan untuk dijadikan hashtag." });
+                }
+                
+                const payload = { 
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                    }
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+                const result = await response.json();
+                
+                if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    const jsonText = result.candidates[0].content.parts[0].text;
+                    const data = JSON.parse(jsonText);
+                    displayResult(data);
+                } else {
+                    displayError("Maaf, AI tidak memberikan jawaban yang valid. Coba lagi.");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                displayError("Terjadi kesalahan. Pastikan format JSON dari AI benar dan periksa koneksi Anda.");
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        function setLoadingState(isLoading) {
+            dom.generateBtn.disabled = isLoading;
+            dom.btnText.textContent = isLoading ? 'Memproses...' : 'Buat Paket Konten!';
+            dom.loader.classList.toggle('hidden', !isLoading);
+            if (!isLoading) dom.resultContainer.classList.remove('hidden');
+        }
+
+        function displayError(message) {
+            dom.resultContainer.classList.remove('hidden');
+            dom.hookOutput.textContent = message;
+            dom.scriptOutput.textContent = '';
+            dom.videoPromptOutput.textContent = '';
+            dom.hashtagOutput.textContent = '';
+        }
+
+        function displayResult(data) {
+            dom.hookOutput.textContent = data.hook || 'Tidak ada data';
+            dom.scriptOutput.textContent = data.naskah_vo || 'Tidak ada data';
+            dom.videoPromptOutput.textContent = Array.isArray(data.prompt_video) 
+                ? data.prompt_video.map((p, i) => `Adegan ${i + 1}: ${p}`).join('\n\n') 
+                : 'Tidak ada data';
+            dom.hashtagOutput.textContent = data.hashtags || 'Tidak ada data';
+        }
+
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).textContent;
+            const copyHelper = document.getElementById('copy-helper');
+            copyHelper.value = textToCopy;
+            copyHelper.select();
+            document.execCommand('copy');
+            alert('Teks berhasil disalin!');
+        }
+
+        // Initialize the view
+        toggleContentFields();
+    </script>
+</body>
+</html>
